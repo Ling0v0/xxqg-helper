@@ -12,6 +12,7 @@ from configparser import ConfigParser
 from func import color
 from func.dingding import DingDingHandler
 from func.pluspush import PlusPushHandler
+from func.TG import TelegramHandler
 import platform
 
 
@@ -119,6 +120,14 @@ def sendMessage(msg):
             ddhandler.ppmsgsend(msg, "msg")
         else:
             print("PlusPush token未设置，取消发送消息")
+    elif xue_cfg["push"]["PushMode"] == "4":
+        token = xue_cfg["push"]["TGtoken"]
+        chat_id = xue_cfg["push"]["chat_id"]
+        if token is not None and chat_id is not None:
+            ddhandler = TelegramHandler(token, chat_id)
+            ddhandler.tg_msg_send(msg, "msg")
+        else:
+            print("Telegram未设置，取消发送消息")
 
 
 def load_logo():
